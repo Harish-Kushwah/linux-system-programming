@@ -7,8 +7,9 @@
 int main(int argc , char* argv[])
 {   
     int source_fd = 0 , dest_fd = 0;
-    char buff[4096];
+    char buff[1096];
     memset(buff , '\0' , sizeof(buff));
+    int bytes_read;
 
     if(argc < 3)
     {
@@ -31,10 +32,9 @@ int main(int argc , char* argv[])
         return -1;
     }
 
-    while (read(source_fd , &buff , sizeof(buff)))
+    while ( (bytes_read = read(source_fd , &buff , sizeof(buff))) > 0)
     {
-        write(dest_fd,&buff , sizeof(buff));
-        memset(buff , '\0' , sizeof(buff));
+        write(dest_fd,&buff , bytes_read);
     }
 
     printf("file coppied successfully from %s to %s\n" , argv[1] , argv[2]);
