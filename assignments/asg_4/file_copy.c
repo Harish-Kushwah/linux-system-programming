@@ -3,6 +3,7 @@
 #include<unistd.h>
 #include<errno.h>
 #include<string.h>
+
 int main(int argc , char* argv[])
 {
     int source_fd = 0 , dest_fd = 0;
@@ -45,5 +46,5 @@ int main(int argc , char* argv[])
     close(source_fd);
     close(dest_fd);
     
-    return -1;
+    return 0;
 }
