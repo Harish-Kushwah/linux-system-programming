@@ -7,9 +7,9 @@
 int main(int argc , char* argv[])
 {
     int source_fd = 0 , dest_fd = 0;
-    char buff[1024];
+    char buff[1024] = {'\0'};
     int read_bytes = 0;
-    int current_offset = 0;  // start copying from 20 
+    int current_offset = 20;  // start copying from 20 
 
     memset(buff , '\0' , sizeof(buff));
 
@@ -37,21 +37,9 @@ int main(int argc , char* argv[])
 
     while((read_bytes = pread(source_fd , &buff , sizeof(buff) , current_offset))>0)
     {
-        if(read_bytes < sizeof(buff)){
-            char temp[read_bytes];
-            for(int i=0; i<read_bytes; i++){
-                temp[i] = buff[i];
-            }
-            pwrite(dest_fd , &temp , sizeof(temp) , current_offset);
-            
-        }
-        else{
-            pwrite(dest_fd , &buff , sizeof(buff) , current_offset);
-        }
-
+        pwrite(dest_fd , &buff , read_bytes , current_offset);
         current_offset += read_bytes ;
         memset(buff , '\0' , sizeof(buff));
-
     }
 
     printf("File copped successfully from the offset\n");
